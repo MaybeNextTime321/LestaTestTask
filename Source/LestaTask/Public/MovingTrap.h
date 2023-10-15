@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -28,7 +26,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Mesh")
 	UMaterialInstance* RightMaterial;
 
-	
+	UPROPERTY(EditAnywhere, Category = "MovingTrap")
+	bool IsRandomMove = false;
+
 	UPROPERTY(EditAnywhere, Category = "MovingTrap")
 	float ActorMoveTimerRate = 0.3;
 

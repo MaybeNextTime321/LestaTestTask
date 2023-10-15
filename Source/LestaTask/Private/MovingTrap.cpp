@@ -5,7 +5,17 @@ DEFINE_LOG_CATEGORY_STATIC(LogMovingTrap, All, All);
 
 void AMovingTrap::TrapAction()
 {
-	MovingLeft = !MovingLeft;
+	
+	if (IsRandomMove)
+	{
+		MovingLeft = FMath::RandBool();
+	}
+	else
+	{
+		MovingLeft = !MovingLeft;
+	}
+
+
 	if (MovingLeft) 
 	{
 		StaticMeshComponent->SetMaterial(0,LeftMaterial);
