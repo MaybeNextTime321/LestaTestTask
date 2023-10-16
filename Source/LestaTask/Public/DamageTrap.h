@@ -32,6 +32,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Mesh")
 	UMaterialInstance* DamageMaterial;
 private:
+	bool TrapIsReloading = false;
 	int TimerCount = 0;
 	void MakeDamage();
+	void ReloadTrap();
 };

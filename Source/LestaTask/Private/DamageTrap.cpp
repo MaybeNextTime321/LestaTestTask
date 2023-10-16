@@ -10,26 +10,23 @@ void ADamageTrap::TrapAction()
 	{
 		case 0:
 			GetWorldTimerManager().SetTimer(TimerHandle, this, &ADamageTrap::TrapAction, TrapTimerRate, IsRepeatingTrap);
-			StaticMeshComponent->SetMaterial(0,WarningMaterial);
+			StaticMeshComponent->SetMaterial(0, WarningMaterial);
 			++TimerCount;
 			break;
 		case 1:
-			if (ActorInTrap) 
+			if (!TrapIsReloading)
 			{
-				MakeDamage();
-				StaticMeshComponent->SetMaterial(0,DamageMaterial);
+				TrapIsReloading = true;
+				if (ActorInTrap)
+				{
+					MakeDamage();
+				}
+				StaticMeshComponent->SetMaterial(0, DamageMaterial);
+				GetWorldTimerManager().SetTimer(TimerHandle, this, &ADamageTrap::ReloadTrap, TrapRespawnTime, IsRepeatingTrap);
+				++TimerCount;
+				break;
 			}
-			GetWorldTimerManager().SetTimer(TimerHandle, this, &ADamageTrap::TrapAction, TrapRespawnTime, IsRepeatingTrap);
-			++TimerCount;
-			break;
-		case 2:
-			TimerCount = 0;
-			StaticMeshComponent->SetMaterial(0,IdleMaterial);
-			if (ActorInTrap) 
-			{
-				TrapAction();
-			}
-			break;
+
 	}
 
 }
@@ -61,4 +58,15 @@ void ADamageTrap::MakeDamage()
 	{
 		UE_LOG(LogDamageTrap, Warning, TEXT("Health component Invalid!!"));
 	}
+}
+
+void ADamageTrap::ReloadTrap()
+{
+	TimerCount = 0;
+	StaticMeshComponent->SetMaterial(0, IdleMaterial);
+	if (ActorInTrap)
+	{
+		TrapAction();
+	}
+	TrapIsReloading = false;
 }
